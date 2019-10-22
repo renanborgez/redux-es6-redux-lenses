@@ -1,0 +1,19 @@
+{
+  "name": "vanila-redux",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel ./src/index.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.10.0"
+  },
+  "dependencies": {
+    "partial.lenses": "^14.17.0",
+    "redux": "^3.7.2"
+  }
+}
