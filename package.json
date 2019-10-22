@@ -16,7 +16,7 @@
     "parcel-bundler": "^1.10.0"
   },
   "dependencies": {
-    "partial.lenses": "^14.17.0",
+    "ramda": "^0.26.1",
     "redux": "^3.7.2"
   }
 }

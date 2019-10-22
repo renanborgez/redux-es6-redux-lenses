@@ -1,42 +1,33 @@
-import * as L from 'partial.lenses';
+import * as R from 'ramda';
 
-import { ActionsTypes as CounterActionTypes } from '../actions/CounterActions';
+import { ActionsTypes } from '../actions/CounterActions';
 
-const resultLens = L.compose(
-  L.prop('result'),
-  L.valueOr(0),
+const defaultTo = value => R.lens(a => a === undefined ? value : a, R.identity);
+
+const resultLens = R.compose(
+  R.lensProp('result'),
+  defaultTo(0),
 );
 
-const lastCommandLens = L.compose(
-  L.prop('lastCommand'),
-  L.valueOr('unknown'),
+const lastCommandLens = R.compose(
+  R.lensProp('lastCommand'),
+  defaultTo('unknown'),
 );
-
-const calculateResult = (state, action) => {
-  switch (action.type) {
-    case CounterActionTypes.ADD:
-      return L.get(resultLens, state) + 1;
-    case CounterActionTypes.SUBTRACT:
-      return L.get(resultLens, state) - 1;
-    default:
-      return L.get(resultLens, state);
-  }
-};
-
-const regiterLastCommand = (state, action) => {
-  switch (action.type) {
-    case CounterActionTypes.ADD:
-      return 'added'
-    case CounterActionTypes.SUBTRACT:
-      return 'subtracted';
-    default:
-      return L.get(lastCommandLens, state);
-  }
-};
 
 export default function(state = {}, action) {
-  return {
-    result: calculateResult(state, action),
-    lastCommand: regiterLastCommand(state, action),
-  };
+  const {type} = action;
+
+  switch(type) {
+    case ActionsTypes.ADD:
+      return R.compose(
+        R.over(resultLens, R.add(1)),
+        R.over(lastCommandLens, R.always('added')),
+      )(state);
+    case ActionsTypes.SUBTRACT:
+      return R.compose(
+        R.over(resultLens, R.flip(R.subtract)(1)),
+        R.over(lastCommandLens, R.always('subtracted')),
+      )(state);
+    default: return state;
+  }
 };
