@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "ramda": "^0.26.1",
+    "reduce-reducers": "^1.0.4",
     "redux": "^3.7.2"
   }
 }
